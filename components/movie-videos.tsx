@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { Play } from "lucide-react"
 import type { Video } from "@/lib/tmdb"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 interface MovieVideosProps {
@@ -24,11 +24,15 @@ export function MovieVideos({ videos }: MovieVideosProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {videos.map((video) => (
           <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-0">
+            <CardContent className="p-0 -my-6">
               <div
                 className="aspect-video relative bg-muted flex items-center justify-center group"
                 onClick={() => setSelectedVideo(video)}
               >
+                <div
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500 group-hover:scale-120 brightness-90 group-hover:brightness-120"
+                  style={{ backgroundImage: `url(https://i.ytimg.com/vi/${video.key}/maxresdefault.jpg)` }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
                 <Button
                   size="lg"
@@ -47,8 +51,8 @@ export function MovieVideos({ videos }: MovieVideosProps) {
 
       {/* Video Modal */}
       <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-        <DialogContent className="max-w-4xl w-full p-0">
-          <DialogHeader className="p-6 pb-0">
+        <DialogContent className="max-w-4xl w-full p-1">
+          <DialogHeader className="p-4 pb-0">
             <DialogTitle>{selectedVideo?.name}</DialogTitle>
           </DialogHeader>
           <div className="aspect-video">

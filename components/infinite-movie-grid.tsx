@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { AlertCircle } from "lucide-react"
-import type { Movie, TMDBResponse } from "@/lib/tmdb"
+import type { FilterOptions, Movie, TMDBResponse } from "@/lib/tmdb"
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll"
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer"
 import { MovieCard } from "@/components/movie-card"
@@ -14,13 +14,15 @@ interface InfiniteMovieGridProps {
   initialData: TMDBResponse<Movie>
   category: string
   searchQuery?: string
+  filters?: FilterOptions
 }
 
-export function InfiniteMovieGrid({ initialData, category, searchQuery }: InfiniteMovieGridProps) {
+export function InfiniteMovieGrid({ initialData, category, searchQuery, filters }: InfiniteMovieGridProps) {
   const { movies, isLoading, hasMore, error, loadMore } = useInfiniteScroll({
     category,
     searchQuery,
     initialData,
+    filters,
   })
 
   const { ref: loadMoreRef, isIntersecting } = useIntersectionObserver({

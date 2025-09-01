@@ -18,7 +18,7 @@ export function MovieCast({ cast }: MovieCastProps) {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {cast.map((actor) => (
           <Card key={actor.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardContent className="p-0">
+            <CardContent className="p-0 -mt-6 -mb-2">
               <div className="aspect-[2/3] relative">
                 <Image
                   src={tmdbApi.getImageUrl(actor.profile_path, "w300") || "/placeholder.svg"}

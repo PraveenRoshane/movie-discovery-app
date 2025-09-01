@@ -55,9 +55,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
               </Suspense>
 
               <Suspense fallback={<LoadingSpinner />}>
-                <MovieVideos
-                  videos={videos.results.filter((v) => v.type === "Trailer" && v.site === "YouTube").slice(0, 3)}
-                />
+                <MovieVideos videos={videos.results.filter((v) => v.type === "Trailer" && v.site === "YouTube").slice(0, 3)} />
               </Suspense>
 
               <Suspense fallback={<LoadingSpinner />}>
