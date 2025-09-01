@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion, Transition, Variants } from "framer-motion"
-import { Home, Film, Tv, Shapes } from "lucide-react"
+import { Home, Film, Tv, Tag } from "lucide-react"
 import { useTheme } from "next-themes"
 
 interface MenuItem {
@@ -24,21 +24,21 @@ const menuItems: MenuItem[] = [
     {
         icon: <Film className="h-5 w-5" />,
         label: "Movies",
-        href: "#",
+        href: "/movies",
         gradient: "linear-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(128, 128, 128, 1) 50%, rgba(0, 0, 0, 1) 100%)",
         iconColor: "text-white-500",
     },
     {
         icon: <Tv className="h-5 w-5" />,
         label: "TV Shows",
-        href: "#",
+        href: "/tv",
         gradient: "linear-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(128, 128, 128, 1) 50%, rgba(0, 0, 0, 1) 100%)",
         iconColor: "text-white-500",
     },
     {
-        icon: <Shapes className="h-5 w-5" />,
+        icon: <Tag className="h-5 w-5" />,
         label: "Genres",
-        href: "#",
+        href: "/genres",
         gradient: "linear-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(128, 128, 128, 1) 50%, rgba(0, 0, 0, 1) 100%)",
         iconColor: "text-white-500",
     },

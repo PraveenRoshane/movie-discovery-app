@@ -32,7 +32,7 @@ export function MovieSection({ title, movies, viewAllHref }: MovieSectionProps) 
               className="flex-none w-[160px] sm:w-[180px] md:w-[200px] animate-in fade-in slide-in-from-left-4 snap-start"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <Link href={`/movie/${movie.id}`} className="h-full block p-0 m-0">
+              <Link href={`/movies/${movie.id}`} className="h-full block p-0 m-0">
                 <MovieCard movie={movie} />
               </Link>
             </div>

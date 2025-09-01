@@ -1,24 +1,25 @@
 "use client"
 
 import { useEffect } from "react"
-import Link from "next/link"
 import { AlertCircle } from "lucide-react"
-import type { FilterOptions, Movie, TMDBResponse } from "@/lib/tmdb"
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll"
+import type { TVSeries, TMDBResponse, FilterOptions } from "@/lib/tmdb"
+import { useInfiniteTVScroll } from "@/hooks/use-infinite-tv-scroll"
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer"
-import { MovieCard } from "@/components/movie-card"
+import { TVCard } from "@/components/tv-card"
 import { LoadingGrid } from "@/components/loading-grid"
 import { Button } from "@/components/ui/button"
+import { MovieCard } from "./movie-card"
+import Link from "next/link"
 
-interface InfiniteMovieGridProps {
-  initialData: TMDBResponse<Movie>
+interface InfiniteTVGridProps {
+  initialData: TMDBResponse<TVSeries>
   category: string
   searchQuery?: string
   filters?: FilterOptions
 }
 
-export function InfiniteMovieGrid({ initialData, category, searchQuery, filters }: InfiniteMovieGridProps) {
-  const { movies, isLoading, hasMore, error, loadMore } = useInfiniteScroll({
+export function InfiniteTVGrid({ initialData, category, searchQuery, filters }: InfiniteTVGridProps) {
+  const { tvSeries, isLoading, hasMore, error, loadMore } = useInfiniteTVScroll({
     category,
     searchQuery,
     initialData,
@@ -30,18 +31,17 @@ export function InfiniteMovieGrid({ initialData, category, searchQuery, filters 
     rootMargin: "200px",
   })
 
-  // Load more when intersection observer triggers
   useEffect(() => {
     if (isIntersecting && hasMore && !isLoading) {
       loadMore()
     }
   }, [isIntersecting, hasMore, isLoading, loadMore])
 
-  if (movies.length === 0 && !isLoading) {
+  if (tvSeries.length === 0 && !isLoading) {
     return (
       <div className="text-center py-12">
         <p className="text-muted-foreground text-lg">
-          {searchQuery ? `No movies found for "${searchQuery}"` : "No movies found"}
+          {searchQuery ? `No TV series found for "${searchQuery}"` : "No TV series found"}
         </p>
       </div>
     )
@@ -51,29 +51,34 @@ export function InfiniteMovieGrid({ initialData, category, searchQuery, filters 
     <div className="space-y-6">
       {searchQuery && <div className="text-sm text-muted-foreground">Found results for "{searchQuery}"</div>}
 
-      {/* Movie Grid with staggered animation */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-0">
-        {movies.map((movie, index) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {tvSeries.map((series, index) => (
           <div
-            key={`${movie.id}-${index}`}
-            className="animate-in fade-in slide-in-from-bottom-4 duration-500 h-full p-0 m-0"
+            key={`${series.id}-${index}`}
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: `${(index % 18) * 50}ms` }}
           >
-            <Link href={`/movies/${movie.id}`} className="h-full block p-0 m-0">
-              <MovieCard movie={movie} />
+            <Link href={`/tv/${series.id}`} className="h-full block p-0 m-0">
+              <MovieCard movie={
+                {
+                  ...series,
+                  title: series.name,
+                  release_date: series.first_air_date,
+                  original_title: series.name,
+                  video: false,
+                }
+              } />
             </Link>
           </div>
         ))}
       </div>
 
-      {/* Loading State */}
       {isLoading && (
         <div className="py-8">
           <LoadingGrid />
         </div>
       )}
 
-      {/* Error State */}
       {error && (
         <div className="text-center py-8">
           <div className="flex items-center justify-center gap-2 text-destructive mb-4">
@@ -86,15 +91,13 @@ export function InfiniteMovieGrid({ initialData, category, searchQuery, filters 
         </div>
       )}
 
-      {/* Load More Trigger */}
       {hasMore && !isLoading && (
         <div ref={loadMoreRef} className="h-20 flex items-center justify-center">
-          <div className="text-sm text-muted-foreground">Loading more movies...</div>
+          <div className="text-sm text-muted-foreground">Loading more TV series...</div>
         </div>
       )}
 
-      {/* End of Results */}
-      {!hasMore && movies.length > 0 && (
+      {!hasMore && tvSeries.length > 0 && (
         <div className="text-center py-8">
           <p className="text-muted-foreground">You've reached the end of the results</p>
         </div>

@@ -135,6 +135,33 @@ export interface FilterOptions {
     | "vote_average.asc"
 }
 
+export interface Season {
+  id: number
+  name: string
+  overview: string
+  poster_path: string | null
+  season_number: number
+  episode_count: number
+  air_date: string
+}
+
+export interface Episode {
+  id: number
+  name: string
+  overview: string
+  still_path: string | null
+  episode_number: number
+  season_number: number
+  air_date: string
+  vote_average: number
+  vote_count: number
+  runtime: number | null
+}
+
+export interface SeasonDetails extends Season {
+  episodes: Episode[]
+}
+
 class TMDBApi {
   private apiKey: string
 
@@ -241,6 +268,14 @@ class TMDBApi {
 
   async getTVReviews(tvId: number, page = 1): Promise<TMDBResponse<Review>> {
     return this.fetchFromTMDB(`/tv/${tvId}/reviews?page=${page}`)
+  }
+
+  async getSeasonDetails(tvId: number, seasonNumber: number): Promise<SeasonDetails> {
+    return this.fetchFromTMDB(`/tv/${tvId}/season/${seasonNumber}`)
+  }
+
+  async getEpisodeDetails(tvId: number, seasonNumber: number, episodeNumber: number): Promise<Episode> {
+    return this.fetchFromTMDB(`/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}`)
   }
 
   async searchMulti(

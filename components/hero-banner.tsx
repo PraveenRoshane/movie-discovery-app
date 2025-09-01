@@ -41,7 +41,7 @@ export function HeroBanner({ movie }: HeroBannerProps) {
 
             <div className="flex gap-4">
               <Button size="lg" asChild className="bg-white text-black hover:bg-white/90">
-                <Link href={`/movie/${movie.id}`}>
+                <Link href={`/movies/${movie.id}`}>
                   <Play className="h-5 w-5 mr-2" />
                   Watch Trailer
                 </Link>
@@ -52,7 +52,7 @@ export function HeroBanner({ movie }: HeroBannerProps) {
                 asChild
                 className="border-white/30 text-white hover:bg-white/10 bg-transparent"
               >
-                <Link href={`/movie/${movie.id}`}>
+                <Link href={`/movies/${movie.id}`}>
                   <Info className="h-5 w-5 mr-2" />
                   More Info
                 </Link>

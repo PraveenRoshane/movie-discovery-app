@@ -64,7 +64,7 @@ export default function WatchlistPage() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {watchlist.map((movie) => (
-              <Link key={movie.id} href={`/movie/${movie.id}`}>
+              <Link key={movie.id} href={`/movies/${movie.id}`}>
                 <MovieCard movie={movie as any} />
               </Link>
             ))}
