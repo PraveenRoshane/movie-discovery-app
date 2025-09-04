@@ -4,6 +4,7 @@ import * as React from "react"
 import { motion, Transition, Variants } from "framer-motion"
 import { Home, Film, Tv, Tag } from "lucide-react"
 import { useTheme } from "next-themes"
+import { ExpandableSearch } from "./expandable-search"
 
 interface MenuItem {
     icon: React.ReactNode
@@ -102,9 +103,9 @@ export function MenuBar() {
             <motion.div
                 className={`absolute -inset-2 bg-gradient-radial from-transparent ${mounted
                     ? isDarkTheme
-                        ? "via-blue-400/30 via-30% via-purple-400/30 via-60% via-red-400/30 via-90%"
-                        : "via-blue-400/20 via-30% via-purple-400/20 via-60% via-red-400/20 via-90%"
-                    : "via-blue-400/20 via-30% via-purple-400/20 via-60% via-red-400/20 via-90%"
+                        ? "via-blue-400/30 via-30%"
+                        : "via-blue-400/20 via-30%"
+                    : "via-blue-400/20 via-30%"
                     } to-transparent rounded-3xl z-0 pointer-events-none`}
                 variants={navGlowVariants}
             />
@@ -153,6 +154,7 @@ export function MenuBar() {
                         </motion.div>
                     </motion.li>
                 ))}
+                <ExpandableSearch />
             </ul>
         </motion.nav>
     )

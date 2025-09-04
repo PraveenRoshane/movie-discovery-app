@@ -112,6 +112,37 @@ export interface Genre {
   name: string
 }
 
+export interface Person {
+  id: number
+  name: string
+  profile_path: string | null
+  known_for_department: string
+  popularity: number
+  adult: boolean
+  gender: number
+  known_for: (Movie | TVSeries)[]
+}
+
+export interface PersonDetails extends Omit<Person, "known_for"> {
+  biography: string
+  birthday: string | null
+  deathday: string | null
+  place_of_birth: string | null
+  homepage: string | null
+  imdb_id: string | null
+  also_known_as: string[]
+}
+
+export interface PersonCredits {
+  cast: (Movie & { character: string; credit_id: string; order: number })[]
+  crew: (Movie & { job: string; department: string; credit_id: string })[]
+}
+
+export interface PersonTVCredits {
+  cast: (TVSeries & { character: string; credit_id: string; episode_count: number })[]
+  crew: (TVSeries & { job: string; department: string; credit_id: string; episode_count: number })[]
+}
+
 export interface TMDBResponse<T> {
   page: number
   results: T[]
@@ -127,12 +158,12 @@ export interface FilterOptions {
   rating?: number
   language?: string
   sortBy?:
-    | "popularity.desc"
-    | "popularity.asc"
-    | "release_date.desc"
-    | "release_date.asc"
-    | "vote_average.desc"
-    | "vote_average.asc"
+  | "popularity.desc"
+  | "popularity.asc"
+  | "release_date.desc"
+  | "release_date.asc"
+  | "vote_average.desc"
+  | "vote_average.asc"
 }
 
 export interface Season {
@@ -270,6 +301,7 @@ class TMDBApi {
     return this.fetchFromTMDB(`/tv/${tvId}/reviews?page=${page}`)
   }
 
+  // Season and Episode endpoints
   async getSeasonDetails(tvId: number, seasonNumber: number): Promise<SeasonDetails> {
     return this.fetchFromTMDB(`/tv/${tvId}/season/${seasonNumber}`)
   }
@@ -278,6 +310,29 @@ class TMDBApi {
     return this.fetchFromTMDB(`/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}`)
   }
 
+  // Person endpoints
+  async searchPeople(query: string, page = 1): Promise<TMDBResponse<Person>> {
+    const encodedQuery = encodeURIComponent(query)
+    return this.fetchFromTMDB(`/search/person?query=${encodedQuery}&page=${page}`)
+  }
+
+  async getPersonDetails(personId: number): Promise<PersonDetails> {
+    return this.fetchFromTMDB(`/person/${personId}`)
+  }
+
+  async getPersonMovieCredits(personId: number): Promise<PersonCredits> {
+    return this.fetchFromTMDB(`/person/${personId}/movie_credits`)
+  }
+
+  async getPersonTVCredits(personId: number): Promise<PersonTVCredits> {
+    return this.fetchFromTMDB(`/person/${personId}/tv_credits`)
+  }
+
+  async getPersonImages(personId: number): Promise<{ profiles: { file_path: string }[] }> {
+    return this.fetchFromTMDB(`/person/${personId}/images`)
+  }
+
+  // Multi search endpoint
   async searchMulti(
     query: string,
     page = 1,
@@ -349,6 +404,12 @@ class TMDBApi {
   // Helper function to get backdrop URL
   getBackdropUrl(path: string | null, size: "w300" | "w780" | "w1280" | "original" = "w1280"): string {
     if (!path) return "/movie-backdrop.png"
+    return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
+  }
+
+  // Helper function to get profile image URL
+  getProfileUrl(path: string | null, size: "w45" | "w185" | "h632" | "original" = "w185"): string {
+    if (!path) return "/person-placeholder.png"
     return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
   }
 
