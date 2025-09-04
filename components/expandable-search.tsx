@@ -54,7 +54,7 @@ export function ExpandableSearch() {
             setIsLoadingSuggestions(true)
             try {
                 const results = await tmdbApi.searchMulti(searchQuery, 1)
-                console.log(results)
+                
                 const formattedSuggestions: SearchSuggestion[] = results.results.slice(0, 8).map((item) => {
                     if (item.media_type === "movie") {
                         return {
