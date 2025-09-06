@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Link from "next/link"
 import Image from 'next/image'
 import { Button } from './ui/button'
@@ -27,7 +27,9 @@ const Header = () => {
                             <SparklesText className="text-2xl">Movie Discovery</SparklesText>
                         </div>
                     </div>
-                    <MenuBar />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <MenuBar />
+                    </Suspense>
                     <div className="p-3 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border border-border/40 shadow-lg relative overflow-hidden">
                         <div className="flex items-center">
                             <div className="flex gap-2">

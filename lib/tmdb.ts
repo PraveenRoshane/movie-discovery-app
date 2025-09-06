@@ -150,7 +150,7 @@ export interface TMDBResponse<T> {
   total_results: number
 }
 
-export type MediaItem = Movie | TVSeries
+export type MediaItem = Movie | TVSeries | Person
 
 export interface FilterOptions {
   genres?: number[]

@@ -4,24 +4,21 @@ import { LoadingGrid } from "@/components/loading-grid"
 import { CategoryTabs } from "@/components/category-tabs"
 import { InfiniteMovieGrid } from "@/components/infinite-movie-grid"
 
-export default async function MoviesPage({
-  searchParams,
-}: {
-  searchParams: { category?: string; search?: string; page?: string }
+export default async function MoviesPage({ searchParams }: {
+  searchParams: Promise<{ category?: string; search?: string; page?: string }>
 }) {
-  const category = searchParams.category || "trending"
-  const searchQuery = searchParams.search
+  const { category, search } = await searchParams
 
   return (
     <main className="container mx-auto px-4 py-6">
-      {!searchQuery && (
+      {!search && (
         <div className="mb-6">
-          <CategoryTabs currentCategory={category} />
+          <CategoryTabs currentCategory={category || "trending"} />
         </div>
       )}
 
       <Suspense fallback={<LoadingGrid />}>
-        <MovieGridWrapper category={category} searchQuery={searchQuery} />
+        <MovieGridWrapper category={category || "trending"} searchQuery={search} />
       </Suspense>
     </main>
   )

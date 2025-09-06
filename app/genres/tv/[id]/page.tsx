@@ -1,28 +1,30 @@
 import { Suspense } from "react"
 import Link from "next/link"
-import { Heart, Bookmark, Film, Tv, ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { tmdbApi } from "@/lib/tmdb"
 import { InfiniteTVGrid } from "@/components/infinite-tv-grid"
-import { SearchBar } from "@/components/search-bar"
 import { FilterControls } from "@/components/filter-controls"
 import { LoadingGrid } from "@/components/loading-grid"
 import { Button } from "@/components/ui/button"
 
 interface GenreTVPageProps {
-  params: { id: string }
-  searchParams: { name?: string; year?: string; rating?: string; language?: string; sortBy?: string }
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ name?: string; year?: string; rating?: string; language?: string; sortBy?: string }>
 }
 
 export default async function GenreTVPage({ params, searchParams }: GenreTVPageProps) {
-  const genreId = Number.parseInt(params.id)
-  const genreName = searchParams.name || "TV Series"
+  const { id } = await params
+  const genreId = Number.parseInt(id)
+
+  const { name, year, rating, language, sortBy } = await searchParams
+  const genreName = name || "TV Series"
 
   const filters = {
     genres: [genreId],
-    year: searchParams.year ? Number.parseInt(searchParams.year) : undefined,
-    rating: searchParams.rating ? Number.parseFloat(searchParams.rating) : undefined,
-    language: searchParams.language,
-    sortBy: searchParams.sortBy as any,
+    year: year ? Number.parseInt(year) : undefined,
+    rating: rating ? Number.parseFloat(rating) : undefined,
+    language: language,
+    sortBy: sortBy as any,
   }
 
   return (

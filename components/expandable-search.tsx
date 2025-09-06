@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { tmdbApi } from "@/lib/tmdb"
+import { tmdbApi, Movie, TVSeries, Person, MediaItem } from "@/lib/tmdb"
 
 interface SearchSuggestion {
     id: number
@@ -22,7 +22,7 @@ interface SearchSuggestion {
 export function ExpandableSearch() {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [query, setQuery] = useState(searchParams.get("search") || "")
+    const [query, setQuery] = useState<string>(searchParams?.get("search") ?? "")
     const [isExpanded, setIsExpanded] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
     const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([])
@@ -32,7 +32,7 @@ export function ExpandableSearch() {
     const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        if (searchParams.get("search")) {
+        if (searchParams?.get("search")) {
             setIsExpanded(true)
         }
     }, [searchParams])
@@ -54,35 +54,61 @@ export function ExpandableSearch() {
             setIsLoadingSuggestions(true)
             try {
                 const results = await tmdbApi.searchMulti(searchQuery, 1)
-                
+
+                function isMovie(item: MediaItem & { media_type: string }): item is Movie & { media_type: "movie" } {
+                    return item.media_type === "movie"
+                }
+
+                function isTVSeries(item: MediaItem & { media_type: string }): item is TVSeries & { media_type: "tv" } {
+                    return item.media_type === "tv"
+                }
+
+                function isPerson(item: MediaItem & { media_type: string }): item is Person & { media_type: "person" } {
+                    return item.media_type === "person"
+                }
+
                 const formattedSuggestions: SearchSuggestion[] = results.results.slice(0, 8).map((item) => {
-                    if (item.media_type === "movie") {
+                    if (isMovie(item)) {
                         return {
                             id: item.id,
-                            title: item.title,
-                            subtitle: item.release_date ? new Date(item.release_date).getFullYear().toString() : "Movie",
+                            title: item.title ?? "",
+                            subtitle: item.release_date
+                                ? new Date(item.release_date).getFullYear().toString()
+                                : "Movie",
                             image: item.poster_path,
                             type: "movie" as const,
                             href: `/movie/${item.id}`,
                         }
-                    } else if (item.media_type === "tv") {
+                    } else if (isTVSeries(item)) {
                         return {
                             id: item.id,
-                            title: item.name,
-                            subtitle: item.first_air_date ? new Date(item.first_air_date).getFullYear().toString() : "TV Series",
+                            title: item.name ?? "",
+                            subtitle: item.first_air_date
+                                ? new Date(item.first_air_date).getFullYear().toString()
+                                : "TV Series",
                             image: item.poster_path,
                             type: "tv" as const,
                             href: `/tv/${item.id}`,
                         }
-                    } else {
+                    } else if (isPerson(item)) {
                         return {
                             id: item.id,
-                            title: item.name,
+                            title: item.name ?? "",
                             subtitle: item.known_for_department || "Person",
                             image: item.profile_path,
                             type: "person" as const,
                             href: `/person/${item.id}`,
                         }
+                    }
+
+                    // fallback to satisfy TS (should never happen)
+                    return {
+                        id: item.id,
+                        title: "Unknown",
+                        subtitle: "Unknown",
+                        image: null,
+                        type: "movie" as const,
+                        href: "/",
                     }
                 })
 
@@ -105,7 +131,7 @@ export function ExpandableSearch() {
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            if (query.trim() && query !== searchParams.get("search")) {
+            if (query.trim() && query !== searchParams?.get("search")) {
                 setIsSearching(true)
                 router.push(`/?search=${encodeURIComponent(query.trim())}`)
             }
@@ -172,7 +198,7 @@ export function ExpandableSearch() {
         setIsExpanded(true)
     }
 
-    const getTypeIcon = (type: string) => {
+    const getTypeIcon = (type: "movie" | "tv" | "person") => {
         switch (type) {
             case "movie":
                 return <Film className="h-4 w-4" />
@@ -180,8 +206,6 @@ export function ExpandableSearch() {
                 return <Tv className="h-4 w-4" />
             case "person":
                 return <User className="h-4 w-4" />
-            default:
-                return <Search className="h-4 w-4" />
         }
     }
 
@@ -194,7 +218,7 @@ export function ExpandableSearch() {
                     className="p-0 px-4 text-muted-foreground text-[16px] font-normal"
                     aria-label="Search"
                 >
-                    <span className={`transition-colors duration-300 text-white-500 text-foreground`}>
+                    <span className="transition-colors duration-300 text-white-500 text-foreground">
                         <Search className="h-5 w-5" />
                     </span>
                     <span>Search</span>
@@ -216,7 +240,9 @@ export function ExpandableSearch() {
                                 className="pl-10 pr-10 bg-background/50 border-border focus:ring-primary focus:border-primary transition-all duration-300 focus:bg-background"
                             />
                             <div className="absolute right-1 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
-                                {(isSearching || isLoadingSuggestions) && <Loader2 className="h-4 w-4 animate-spin text-primary" />}
+                                {(isSearching || isLoadingSuggestions) && (
+                                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                                )}
                                 <Button
                                     type="button"
                                     variant="ghost"
@@ -231,7 +257,7 @@ export function ExpandableSearch() {
                     </form>
 
                     {showSuggestions && suggestions.length > 0 && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-lg z-auto max-h-96 overflow-y-auto">
                             {suggestions.map((suggestion) => (
                                 <Link
                                     key={`${suggestion.type}-${suggestion.id}`}
@@ -258,7 +284,9 @@ export function ExpandableSearch() {
                                         )}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="font-medium text-foreground truncate">{suggestion.title}</h4>
+                                        <h4 className="font-medium text-foreground truncate">
+                                            {suggestion.title}
+                                        </h4>
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             {getTypeIcon(suggestion.type)}
                                             <span>{suggestion.subtitle}</span>

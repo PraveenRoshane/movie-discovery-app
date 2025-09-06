@@ -17,28 +17,28 @@ export function FilterControls({ type }: FilterControlsProps) {
   const searchParams = useSearchParams()
   const [showFilters, setShowFilters] = useState(false)
 
-  const currentYear = searchParams.get("year")
-  const currentRating = searchParams.get("rating")
-  const currentLanguage = searchParams.get("language")
-  const currentSortBy = searchParams.get("sortBy")
+  const currentYear = searchParams?.get("year")
+  const currentRating = searchParams?.get("rating")
+  const currentLanguage = searchParams?.get("language")
+  const currentSortBy = searchParams?.get("sortBy")
 
   const updateFilter = (key: string, value: string | null) => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams?.toString() || "")
     if (value) {
       params.set(key, value)
     } else {
       params.delete(key)
     }
-    router.push(`?${params.toString()}`)
+    router.push(`/?${params.toString()}`)
   }
 
   const clearFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams?.toString() || "")
     params.delete("year")
     params.delete("rating")
     params.delete("language")
     params.delete("sortBy")
-    router.push(`?${params.toString()}`)
+    router.push(`/?${params.toString()}`)
   }
 
   const currentYearValue = currentYear ? Number.parseInt(currentYear) : new Date().getFullYear()

@@ -7,21 +7,20 @@ import { TVCategoryTabs } from "@/components/tv-category-tabs"
 export default async function TVPage({
   searchParams,
 }: {
-  searchParams: { category?: string; search?: string; page?: string }
+  searchParams: Promise<{ category?: string; search?: string; page?: string }>
 }) {
-  const category = searchParams.category || "trending"
-  const searchQuery = searchParams.search
+  const { category, search } = await searchParams;
 
   return (
     <main className="container mx-auto px-4 py-6">
-      {!searchQuery && (
+      {!search && (
         <div className="mb-6">
-          <TVCategoryTabs currentCategory={category} />
+          <TVCategoryTabs currentCategory={category || "trending"} />
         </div>
       )}
 
       <Suspense fallback={<LoadingGrid />}>
-        <TVGridWrapper category={category} searchQuery={searchQuery} />
+        <TVGridWrapper category={category || "trending"} searchQuery={search} />
       </Suspense>
     </main>
   )

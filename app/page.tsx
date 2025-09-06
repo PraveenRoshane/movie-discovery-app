@@ -32,7 +32,7 @@ async function HomepageWithSections() {
     return (
       <main>
         <HeroBanner movie={heroMovie} />
-        <div className="container mx-auto px-4 py-30 space-y-12">
+        <div className="container mx-auto px-4 py-10 space-y-12">
           <MovieSection title="Now Playing" movies={nowPlayingData.results} viewAllHref="/movies?category=now-playing" />
           <MovieSection title="Trending" movies={trendingData.results} viewAllHref="/movies?category=trending" />
           <MovieSection title="Popular" movies={popularData.results} viewAllHref="/movies?category=popular" />

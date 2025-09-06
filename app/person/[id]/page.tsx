@@ -4,7 +4,7 @@ import { PersonHero } from "@/components/person-hero"
 import { PersonFilmography } from "@/components/person-filmography"
 
 interface PersonPageProps {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }
 
 export default async function PersonPage({ params }: PersonPageProps) {
