@@ -4,7 +4,6 @@ import * as React from "react"
 import { motion, Transition, Variants } from "framer-motion"
 import { Home, Film, Tv, Tag } from "lucide-react"
 import { useTheme } from "next-themes"
-import { ExpandableSearch } from "./expandable-search"
 
 interface MenuItem {
     icon: React.ReactNode
@@ -95,11 +94,7 @@ export function MenuBar() {
     const isDarkTheme = mounted && (resolvedTheme === "dark" || theme === "dark")
 
     return (
-        <motion.nav
-            className="p-2 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border border-border/40 shadow-lg relative overflow-hidden"
-            initial="initial"
-            whileHover="hover"
-        >
+        <motion.nav initial="initial" whileHover="hover">
             <motion.div
                 className={`absolute -inset-2 bg-gradient-radial from-transparent ${mounted
                     ? isDarkTheme
@@ -154,7 +149,6 @@ export function MenuBar() {
                         </motion.div>
                     </motion.li>
                 ))}
-                <ExpandableSearch />
             </ul>
         </motion.nav>
     )

@@ -59,7 +59,7 @@ export function TVCategoryTabs({ currentCategory }: TVCategoryTabsProps) {
             key={category.id}
             variant={isActive ? "default" : "outline"}
             onClick={() => handleCategoryChange(category.id)}
-            className={`flex items-center gap-2 h-auto p-4 transition-all duration-300 ${
+            className={`flex items-center gap-2 h-auto p-4 transition-all duration-300 cursor-pointer ${
               isActive
                 ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                 : "hover:bg-accent/50 hover:border-primary/50"

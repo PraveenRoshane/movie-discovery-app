@@ -33,7 +33,7 @@ export function CategoryTabs({ currentCategory }: CategoryTabsProps) {
   const router = useRouter()
 
   const handleCategoryChange = (categoryId: string) => {
-    router.push(`/?category=${categoryId}`)
+    router.push(`/movies/?category=${categoryId}`)
   }
 
   return (
@@ -47,7 +47,7 @@ export function CategoryTabs({ currentCategory }: CategoryTabsProps) {
             key={category.id}
             variant={isActive ? "default" : "outline"}
             onClick={() => handleCategoryChange(category.id)}
-            className={`flex items-center gap-2 h-auto p-4 transition-all duration-300 ${isActive
+            className={`flex items-center gap-2 h-auto p-4 transition-all duration-300 cursor-pointer ${isActive
                 ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                 : "hover:bg-accent/50 hover:border-primary/50"
               }`}
