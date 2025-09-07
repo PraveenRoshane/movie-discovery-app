@@ -41,7 +41,6 @@ export function FilterControls({ type }: FilterControlsProps) {
     router.push(`/?${params.toString()}`)
   }
 
-  const currentYearValue = currentYear ? Number.parseInt(currentYear) : new Date().getFullYear()
   const currentRatingValue = currentRating ? Number.parseFloat(currentRating) : 0
 
   return (

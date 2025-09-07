@@ -32,7 +32,7 @@ export function PersonHero({ person }: PersonHeroProps) {
 
     return (
         <div className="relative overflow-hidden">
-            <div className="relative z-20 py-16 lg:py-24">
+            <div className="relative py-16 lg:py-24">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     <div className="flex-shrink-0">
                         <div className="relative">

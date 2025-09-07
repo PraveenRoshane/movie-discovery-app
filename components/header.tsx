@@ -2,8 +2,8 @@ import React, { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { MenuBar } from './menu-bar'
-import { Heart, Bookmark } from 'lucide-react'
 import { ExpandableSearch } from './expandable-search'
+import { Heart, Bookmark, Loader2 } from 'lucide-react'
 import { AnimatedThemeToggler } from './magicui/animated-theme-toggler'
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
                     <div className="p-2 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden">
                         <MenuBar />
                     </div>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-primary" />}>
                         <ExpandableSearch />
                     </Suspense>
                     <div className="p-4.5 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden">
