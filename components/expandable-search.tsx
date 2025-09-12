@@ -215,7 +215,7 @@ export function ExpandableSearch() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={query ? clearSearch : () => setIsExpanded(false)}
-                                className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive cursor-pointer"
                                 aria-label="Clear search"
                             >
                                 <X className="h-4 w-4" />

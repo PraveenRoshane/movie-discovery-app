@@ -14,14 +14,16 @@ const Header = () => {
                 <div className="flex flex-row items-center gap-0 sm:justify-between">
                     {/* Logo - Full width on mobile, normal on desktop */}
                     <div className='px-5 py-3 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden'>
-                        <Image
-                            src="/logo.png"
-                            alt="logo"
-                            width={90}
-                            height={90}
-                            priority
-                            className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
-                        />
+                        <Link href="/" aria-label="Home">
+                            <Image
+                                src="/logo.png"
+                                alt="logo"
+                                width={90}
+                                height={90}
+                                priority
+                                className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
+                            />
+                        </Link>
                     </div>
 
                     {/* Middle section - Menu and Search */}
@@ -44,7 +46,7 @@ const Header = () => {
                                 <Link href="/watchlist" aria-label="Watchlist" title='Watchlist'>
                                     <Bookmark className="h-5 w-5 hover:text-blue-500 transition-colors bg-transparent" />
                                 </Link>
-                                <AnimatedThemeToggler />
+                                <AnimatedThemeToggler className="cursor-pointer" />
                             </div>
                         </div>
                     </div>
