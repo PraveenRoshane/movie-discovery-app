@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Play, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -8,17 +9,18 @@ interface HeroBannerProps {
 }
 
 export function HeroBanner({ movie }: HeroBannerProps) {
-  const backdropUrl = tmdbApi.getBackdropUrl(movie.backdrop_path, "original")
+  const backdropUrl = tmdbApi.getBackdropUrl(movie.backdrop_path, "w1280")
   const year = new Date(movie.release_date).getFullYear()
 
   return (
     <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
       {/* Background Image */}
-      <img
+      <Image
         src={backdropUrl}
         alt={`${movie.title} backdrop`}
-        fetchPriority="high"
-        className="absolute inset-0 w-full h-full object-cover"
+        fill
+        priority
+        className="object-cover"
       />
 
       {/* Gradient Overlay */}
