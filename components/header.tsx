@@ -2,39 +2,47 @@ import React, { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { MenuBar } from './menu-bar'
+import { MobileNav } from './mobile-nav'
 import { ExpandableSearch } from './expandable-search'
 import { Heart, Bookmark, Loader2 } from 'lucide-react'
 import { AnimatedThemeToggler } from './magicui/animated-theme-toggler'
 
 const Header = () => {
     return (
-        <header className="sticky top-0 z-20 transition-all duration-300">
-            <div className="container mx-auto px-4 py-4">
-                <div className="flex items-center justify-between">
-                    <div className='px-5 py-2.5 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden'>
+        <header className="sticky top-0 z-10 transition-all duration-300">
+            <div className="hidden md:block container mx-auto p-4">
+                <div className="flex flex-row items-center gap-0 sm:justify-between">
+                    {/* Logo - Full width on mobile, normal on desktop */}
+                    <div className='px-5 py-3 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden'>
                         <Image
                             src="/logo.png"
                             alt="logo"
-                            width={100}
-                            height={100}
+                            width={90}
+                            height={90}
                             priority
                             className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
                         />
                     </div>
-                    <div className="p-2 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden">
-                        <MenuBar />
+
+                    {/* Middle section - Menu and Search */}
+                    <div className="flex flex-row items-center justify-center gap-2 w-auto order-2">
+                        <div className="p-2 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden">
+                            <MenuBar />
+                        </div>
+                        <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-primary" />}>
+                            <ExpandableSearch />
+                        </Suspense>
                     </div>
-                    <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-primary" />}>
-                        <ExpandableSearch />
-                    </Suspense>
-                    <div className="p-4.5 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden">
+
+                    {/* Icons section */}
+                    <div className="p-4.5 rounded-2xl bg-gradient-to-b from-background/80 to-background/40 backdrop-blur-lg border-none shadow-lg relative overflow-hidden order-3">
                         <div className="flex items-center">
                             <div className="flex gap-2">
-                                <Link href="/favorites">
-                                    <Heart className="h-5 w-5 mr-2 hover:text-red-500 transition-colors bg-transparent" />
+                                <Link href="/favorites" aria-label="Favorites" title='Favorites'>
+                                    <Heart className="h-5 w-5 hover:text-red-500 transition-colors bg-transparent" />
                                 </Link>
-                                <Link href="/watchlist">
-                                    <Bookmark className="h-5 w-5 mr-2 hover:text-blue-500 transition-colors bg-transparent" />
+                                <Link href="/watchlist" aria-label="Watchlist" title='Watchlist'>
+                                    <Bookmark className="h-5 w-5 hover:text-blue-500 transition-colors bg-transparent" />
                                 </Link>
                                 <AnimatedThemeToggler />
                             </div>
@@ -42,6 +50,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            <MobileNav />
         </header>
     )
 }

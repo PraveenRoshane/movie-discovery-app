@@ -14,9 +14,11 @@ export function HeroBanner({ movie }: HeroBannerProps) {
   return (
     <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${backdropUrl})` }}
+      <img
+        src={backdropUrl}
+        alt={`${movie.title} backdrop`}
+        fetchPriority="high"
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Gradient Overlay */}
@@ -52,9 +54,9 @@ export function HeroBanner({ movie }: HeroBannerProps) {
                 asChild
                 className="border-white/30 text-white hover:bg-white/10 bg-transparent"
               >
-                <Link href={`/movies/${movie.id}`}>
+                <Link href={`/movies/${movie.id}`} aria-label={`View more information about ${movie.title}`}>
                   <Info className="h-5 w-5 mr-2" />
-                  More Info
+                  More Info <span className="sr-only">about {movie.title}</span>
                 </Link>
               </Button>
             </div>
