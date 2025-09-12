@@ -14,13 +14,12 @@ interface GenreTVPageProps {
 
 export default async function GenreTVPage({ params, searchParams }: GenreTVPageProps) {
   const { id } = await params
-  const genreId = Number.parseInt(id)
 
   const { name, year, rating, language, sortBy } = await searchParams
   const genreName = name || "TV Series"
 
   const filters = {
-    genres: [genreId],
+    genres: [Number.parseInt(id)],
     year: year ? Number.parseInt(year) : undefined,
     rating: rating ? Number.parseFloat(rating) : undefined,
     language: language,
@@ -41,13 +40,13 @@ export default async function GenreTVPage({ params, searchParams }: GenreTVPageP
       </div>
 
       <Suspense fallback={<LoadingGrid />}>
-        <GenreTVWrapper genreId={genreId} filters={filters} />
+        <GenreTVWrapper filters={filters} />
       </Suspense>
     </main>
   )
 }
 
-async function GenreTVWrapper({ genreId, filters }: { genreId: number; filters: any }) {
+async function GenreTVWrapper({ filters }: { filters: any }) {
   try {
     const tvData = await tmdbApi.discoverTV(1, filters)
     return <InfiniteTVGrid initialData={tvData} category="discover" filters={filters} />

@@ -14,13 +14,12 @@ interface GenreMoviesPageProps {
 
 export default async function GenreMoviesPage({ params, searchParams }: GenreMoviesPageProps) {
   const { id } = await params
-  const genreId = Number.parseInt(id)
 
   const { name, year, rating, language, sortBy } = await searchParams
   const genreName = name || "Movies"
 
   const filters = {
-    genres: [genreId],
+    genres: [Number.parseInt(id)],
     year: year ? Number.parseInt(year) : undefined,
     rating: rating ? Number.parseFloat(rating) : undefined,
     language: language,
@@ -41,13 +40,13 @@ export default async function GenreMoviesPage({ params, searchParams }: GenreMov
       </div>
 
       <Suspense fallback={<LoadingGrid />}>
-        <GenreMoviesWrapper genreId={genreId} filters={filters} />
+        <GenreMoviesWrapper filters={filters} />
       </Suspense>
     </main>
   )
 }
 
-async function GenreMoviesWrapper({ genreId, filters }: { genreId: number; filters: any }) {
+async function GenreMoviesWrapper({ filters }: { filters: any }) {
   try {
     const moviesData = await tmdbApi.discoverMovies(1, filters)
     return <InfiniteMovieGrid initialData={moviesData} category="discover" filters={filters} />

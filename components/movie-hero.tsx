@@ -12,7 +12,6 @@ interface MovieHeroProps {
 
 export function MovieHero({ movie }: MovieHeroProps) {
   const posterUrl = tmdbApi.getImageUrl(movie.poster_path, "w500")
-  const backdropUrl = tmdbApi.getBackdropUrl(movie.backdrop_path, "w1280")
   const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"
   const runtime = movie.runtime ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m` : "N/A"
 
@@ -26,20 +25,6 @@ export function MovieHero({ movie }: MovieHeroProps) {
 
   return (
     <div className="relative">
-      {/* Backdrop */}
-      {movie.backdrop_path && (
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src={backdropUrl || "/placeholder.svg"}
-            alt={movie.title}
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
-        </div>
-      )}
-
       <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-6">
@@ -99,29 +84,29 @@ export function MovieHero({ movie }: MovieHeroProps) {
 
               {/* Overview */}
               <div>
-                <h3 className="text-lg font-semibold mb-2">Overview</h3>
+                <h2 className="text-lg font-semibold mb-2">Overview</h2>
                 <p className="text-muted-foreground leading-relaxed">{movie.overview || "No overview available."}</p>
               </div>
 
               {/* Additional Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border">
                 <div>
-                  <h4 className="font-medium text-sm text-foreground">Status</h4>
+                  <h3 className="font-medium text-sm text-foreground">Status</h3>
                   <p className="text-sm text-muted-foreground">{movie.status}</p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-sm text-foreground">Original Language</h4>
+                  <h3 className="font-medium text-sm text-foreground">Original Language</h3>
                   <p className="text-sm text-muted-foreground uppercase">{movie.original_language}</p>
                 </div>
                 {movie.budget > 0 && (
                   <div>
-                    <h4 className="font-medium text-sm text-foreground">Budget</h4>
+                    <h3 className="font-medium text-sm text-foreground">Budget</h3>
                     <p className="text-sm text-muted-foreground">${movie.budget.toLocaleString()}</p>
                   </div>
                 )}
                 {movie.revenue > 0 && (
                   <div>
-                    <h4 className="font-medium text-sm text-foreground">Revenue</h4>
+                    <h3 className="font-medium text-sm text-foreground">Revenue</h3>
                     <p className="text-sm text-muted-foreground">${movie.revenue.toLocaleString()}</p>
                   </div>
                 )}

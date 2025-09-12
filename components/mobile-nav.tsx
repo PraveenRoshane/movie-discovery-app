@@ -36,12 +36,12 @@ export function MobileNav() {
                     >
                         <Menu className="h-6 w-6" />
                     </button>
-                    <Link href="/" aria-label="Home" className='absolute left-1/2 -translate-x-1/2'>
+                    <Link href="/" aria-label="Home" className="absolute left-1/2 -translate-x-1/2">
                         <Image
                             src="/logo.png"
                             alt="logo"
-                            width={90}
-                            height={90}
+                            width={96}
+                            height={34}
                             priority
                             className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
                         />
@@ -88,8 +88,8 @@ export function MobileNav() {
                             <Image
                                 src="/logo.png"
                                 alt="logo"
-                                width={90}
-                                height={90}
+                                width={96}
+                                height={34}
                                 priority
                                 className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
                             />

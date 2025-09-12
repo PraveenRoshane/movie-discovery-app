@@ -18,8 +18,8 @@ const Header = () => {
                             <Image
                                 src="/logo.png"
                                 alt="logo"
-                                width={90}
-                                height={90}
+                                width={96}
+                                height={34}
                                 priority
                                 className="transition-all duration-300 brightness-100 contrast-100 dark:brightness-110 dark:contrast-100 dark:invert dark:filter dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
                             />

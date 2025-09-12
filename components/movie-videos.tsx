@@ -37,6 +37,7 @@ export function MovieVideos({ videos }: MovieVideosProps) {
                 <Button
                   size="lg"
                   className="relative z-10 rounded-full w-16 h-16 group-hover:scale-110 transition-transform"
+                  aria-label={`Watch ${video.name}`}
                 >
                   <Play className="h-6 w-6 ml-1" />
                 </Button>

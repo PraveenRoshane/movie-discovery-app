@@ -41,7 +41,7 @@ export function MovieCard({ movie }: MovieCardProps) {
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
-            <h3 className="font-semibold text-sm line-clamp-2 mb-2 text-balance">{movie.title}</h3>
+            <h1 className="font-semibold text-sm line-clamp-2 mb-2 text-balance">{movie.title}</h1>
             <div className="flex items-center justify-between text-xs opacity-90">
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
