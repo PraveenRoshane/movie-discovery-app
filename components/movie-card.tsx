@@ -32,15 +32,15 @@ export function MovieCard({ movie }: MovieCardProps) {
             sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500" />
 
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <div className="absolute top-2 right-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0">
             <div className="bg-black/50 backdrop-blur-sm rounded-lg p-1">
               <MovieActions movie={favoriteMovie} />
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+          <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-all duration-500">
             <h1 className="font-semibold text-sm line-clamp-2 mb-2 text-balance">{movie.title}</h1>
             <div className="flex items-center justify-between text-xs opacity-90">
               <div className="flex items-center gap-1">
