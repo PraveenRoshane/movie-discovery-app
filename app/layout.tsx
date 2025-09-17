@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Movie Discovery - Find Your Next Favorite Film",
+  title: "Movix - Find Your Next Favorite Film",
   description: "Discover trending movies, search your favorites, and build your watchlist with our comprehensive movie database. Get all the details you need to plan your next movie watch.",
 };
 
