@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { usePathname } from "next/navigation"
-import { Home, Film, Tv, Tag, Menu, Heart, Bookmark } from "lucide-react"
+import { Home, Film, Tv, Tag, Menu, Heart, Bookmark, Loader2, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
+import { ExpandableSearch } from "./expandable-search"
 
 const menuItems = [
     { icon: <Home className="h-5 w-5" />, label: "Home", href: "/" },
@@ -19,6 +20,7 @@ const menuItems = [
 
 export function MobileNav() {
     const [isOpen, setIsOpen] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
     const pathname = usePathname()
 
     const toggleMenu = () => setIsOpen(!isOpen)
@@ -58,6 +60,7 @@ export function MobileNav() {
 
                     {/* Actions */}
                     <div className="flex items-center ml-auto gap-2">
+                        <Search className="h-5 w-5" onClick={() => setIsSearchOpen(!isSearchOpen)} aria-label="Toggle search" />
                         <Link href="/favorites" aria-label="Favorites" title="Favorites">
                             <Heart className="h-5 w-5 hover:text-red-500 transition-colors" />
                         </Link>
@@ -67,6 +70,15 @@ export function MobileNav() {
                         <AnimatedThemeToggler />
                     </div>
                 </div>
+
+                {/* Search */}
+                {isSearchOpen && (
+                    <div className="flex flex-row items-center justify-center gap-2 w-auto order-2 pt-3">
+                        <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-primary" />}>
+                            <ExpandableSearch />
+                        </Suspense>
+                    </div>
+                )}
             </div>
 
             {/* Backdrop */}
