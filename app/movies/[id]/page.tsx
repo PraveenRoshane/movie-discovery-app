@@ -1,12 +1,11 @@
 import { Metadata } from "next"
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { tmdbApi } from "@/lib/tmdb"
 import { MovieHero } from "@/components/movie-hero"
 import { MovieCast } from "@/components/movie-cast"
 import { MovieVideos } from "@/components/movie-videos"
 import { MovieReviews } from "@/components/movie-reviews"
-import { LoadingSpinner } from "@/components/loading-spinner"
+import { extractColorFromUrlServer } from "@/lib/serverColorUtils"
 
 interface MoviePageProps {
   params: Promise<{ id: string }>
@@ -117,25 +116,18 @@ export default async function MoviePage({ params }: MoviePageProps) {
       url: `${process.env.BASE_URL}/movie/${movie.id}`,
     }
 
+    const bgColor = await extractColorFromUrlServer(movie.poster_path ? tmdbApi.getImageUrl(movie.poster_path, "w500") : "/movie-backdrop.png");
+
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen" style={{ background: `linear-gradient(to bottom, ${bgColor}, var(--gradient-end))` }}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <div className="container mx-auto px-4 py-6">
           <div className="space-y-8">
             <MovieHero movie={movie} />
-
             <div className="grid gap-8">
-              <Suspense fallback={<LoadingSpinner />}>
-                <MovieCast cast={credits.cast.slice(0, 12)} />
-              </Suspense>
-
-              <Suspense fallback={<LoadingSpinner />}>
-                <MovieVideos videos={videos.results.filter((v) => v.type === "Trailer" && v.site === "YouTube").slice(0, 3)} />
-              </Suspense>
-
-              <Suspense fallback={<LoadingSpinner />}>
-                <MovieReviews reviews={reviews.results.slice(0, 5)} />
-              </Suspense>
+              <MovieCast cast={credits.cast.slice(0, 12)} />
+              <MovieVideos videos={videos.results.filter((v) => v.type === "Trailer" && v.site === "YouTube").slice(0, 3)} />
+              <MovieReviews reviews={reviews.results.slice(0, 5)} />
             </div>
           </div>
         </div>

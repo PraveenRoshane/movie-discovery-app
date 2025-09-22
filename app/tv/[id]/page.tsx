@@ -1,13 +1,12 @@
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { tmdbApi } from "@/lib/tmdb"
 import { TVHero } from "@/components/tv-hero"
 import { MovieCast } from "@/components/movie-cast"
 import { MovieVideos } from "@/components/movie-videos"
 import { MovieReviews } from "@/components/movie-reviews"
-import { LoadingSpinner } from "@/components/loading-spinner"
 import { TVSeasons } from "@/components/tv-seasons"
 import { Metadata } from "next"
+import { extractColorFromUrlServer } from "@/lib/serverColorUtils"
 
 interface TVDetailPageProps {
   params: Promise<{ id: string }>
@@ -128,28 +127,18 @@ export default async function TVDetailPage({ params }: TVDetailPageProps) {
       url: `${process.env.BASE_URL}/tv/${tvDetails.id}`,
     }
 
+    const bgColor = await extractColorFromUrlServer(tvDetails.poster_path ? tmdbApi.getImageUrl(tvDetails.poster_path, "w500") : "/tv-backdrop.png");
+
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen" style={{ background: `linear-gradient(to bottom, ${bgColor}, var(--gradient-end))` }}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <div className="container mx-auto px-4 py-6">
           <div className="space-y-8">
             <TVHero tvSeries={tvDetails} />
-
-            <Suspense fallback={<LoadingSpinner />}>
-              <TVSeasons tvSeries={tvDetails} />
-            </Suspense>
-
-            <Suspense fallback={<LoadingSpinner />}>
-              <MovieCast cast={credits.cast} />
-            </Suspense>
-
-            <Suspense fallback={<LoadingSpinner />}>
-              <MovieVideos videos={videos.results} />
-            </Suspense>
-
-            <Suspense fallback={<LoadingSpinner />}>
-              <MovieReviews reviews={reviews.results} />
-            </Suspense>
+            <TVSeasons tvSeries={tvDetails} />
+            <MovieCast cast={credits.cast} />
+            <MovieVideos videos={videos.results} />
+            <MovieReviews reviews={reviews.results} />
           </div>
         </div>
       </div>
