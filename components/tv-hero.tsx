@@ -12,9 +12,7 @@ interface TVHeroProps {
 
 export function TVHero({ tvSeries }: TVHeroProps) {
   const posterUrl = tmdbApi.getImageUrl(tvSeries.poster_path, "w500")
-  const backdropUrl = tmdbApi.getBackdropUrl(tvSeries.backdrop_path, "w1280")
   const firstAirYear = tvSeries.first_air_date ? new Date(tvSeries.first_air_date).getFullYear() : "N/A"
-  const runtime = tvSeries.episode_run_time.length > 0 ? `${tvSeries.episode_run_time[0]}min episodes` : "N/A"
 
   // Convert TV series to movie format for actions
   const favoriteItem = {
@@ -48,6 +46,7 @@ export function TVHero({ tvSeries }: TVHeroProps) {
                     alt={tvSeries.name}
                     fill
                     className="object-cover"
+                    fetchPriority="high"
                     priority
                   />
                 </div>

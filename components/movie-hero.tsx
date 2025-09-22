@@ -37,6 +37,7 @@ export function MovieHero({ movie }: MovieHeroProps) {
                     alt={movie.title}
                     fill
                     className="object-cover"
+                    fetchPriority="high"
                     priority
                   />
                 </div>
