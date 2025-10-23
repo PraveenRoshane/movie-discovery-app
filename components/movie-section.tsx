@@ -26,11 +26,10 @@ export function MovieSection({ title, movies, viewAllHref }: MovieSectionProps) 
       </div>
       <div className="relative">
         <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory outline-none">
-          {movies.slice(0, 20).map((movie, index) => (
+          {movies.slice(0, 20).map((movie) => (
             <div
               key={movie.id}
-              className="flex-none w-[160px] sm:w-[180px] md:w-[200px] animate-in fade-in slide-in-from-left-4 snap-start"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="flex-none w-[160px] sm:w-[180px] md:w-[200px] snap-start"
             >
               <Link href={`/movies/${movie.id}`} className="h-full block p-0 m-0">
                 <MovieCard movie={movie} />

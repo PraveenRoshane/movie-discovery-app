@@ -1,3 +1,4 @@
+import Loading from "./loading";
 import { Suspense } from "react";
 import { tmdbApi } from "@/lib/tmdb";
 import { HeroBanner } from "@/components/hero-banner";
@@ -10,11 +11,19 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
   const category = params.category || "trending"
   const searchQuery = params.search
 
-  if (!searchQuery) {
-    return <HomepageWithSections />
-  }
-
-  return <SearchResultsPage searchQuery={searchQuery} category={category} />
+  return (
+    <>
+      {searchQuery ? (
+        <Suspense fallback={<LoadingGrid />}>
+          <SearchResultsPage searchQuery={searchQuery} category={category} />
+        </Suspense>
+      ) : (
+        <Suspense fallback={<Loading />}>
+          <HomepageWithSections />
+        </Suspense>
+      )}
+    </>
+  );
 }
 
 async function HomepageWithSections() {

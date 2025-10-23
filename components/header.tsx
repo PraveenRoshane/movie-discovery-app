@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { MenuBar } from './menu-bar'
-import { MobileNav } from './mobile-nav'
+import { MobileNavClient } from './mobile-nav-client'
 import { ExpandableSearch } from './expandable-search'
 import { Heart, Bookmark, Loader2 } from 'lucide-react'
 import { AnimatedThemeToggler } from './magicui/animated-theme-toggler'
@@ -52,7 +52,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <MobileNav />
+            <MobileNavClient />
         </header>
     )
 }
