@@ -2,12 +2,13 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 import { Suspense, useState } from "react"
 import { usePathname } from "next/navigation"
-import { Home, Film, Tv, Tag, Menu, Heart, Bookmark, Loader2, Search } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { ExpandableSearch } from "./expandable-search"
+import ExpandableSearchSkeleton from "./expandable-search-skeleton"
+import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
+import { Home, Film, Tv, Tag, Menu, Heart, Bookmark, Search } from "lucide-react"
 
 const menuItems = [
     { icon: <Home className="h-5 w-5" />, label: "Home", href: "/" },
@@ -74,7 +75,7 @@ export function MobileNav() {
                 {/* Search */}
                 {isSearchOpen && (
                     <div className="flex flex-row items-center justify-center gap-2 w-auto order-2 pt-3">
-                        <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-primary" />}>
+                        <Suspense fallback={<ExpandableSearchSkeleton />}>
                             <ExpandableSearch />
                         </Suspense>
                     </div>
